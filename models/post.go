@@ -10,8 +10,8 @@ type Post struct {
 	ID int `gorm:"primarykey" json:"id"`
 	Title string `gorm:"type:string;not null" json:"title"`
 	Body string `gorm:"type:string" json:"body"`
-	Created_at time.Time `json:"created_at" json:"created_at"`
-	Updated_at time.Time `json:"updated_at"`
+	Created_at time.Time `gorm:"type:timestamp;not null;autoCreateTime" json:"created_at"`
+	Updated_at time.Time `gorm:"type:timestamp;not null;autoUpdateTime" json:"updated_at"`
 	UserID int `json:"user_id"`
 }
 

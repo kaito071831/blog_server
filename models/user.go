@@ -1,7 +1,9 @@
 package models
 
 import (
+	"log"
 	"time"
+
 	"github.com/kaito071831/blog_server/db"
 )
 
@@ -9,8 +11,8 @@ type User struct {
 	ID int `gorm:"primarykey" json:"id"`
 	Email string `gorm:"type:string;not null" json:"email"`
 	Hash_password string `gorm:"type:string;not null" json:"hash_password"`
-	Created_at time.Time `json:"created_at"`
-	Updated_at time.Time `json:"updated_at"`
+	Created_at time.Time `gorm:"type:timestamp;not null;autoCreateTime" json:"created_at"`
+	Updated_at time.Time `gorm:"type:timestamp;not null;autoUpdateTime" json:"updated_at"`
 	Posts []Post
 }
 
@@ -35,6 +37,7 @@ func GetUsers()([]*User, error) {
 func CreateUser(u User)(User, error){
 	user := u
 	if err := db.Db.Create(&user).Error; err != nil {
+		log.Println(err)
 		return User{}, err
 	}
 	return user, nil
