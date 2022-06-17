@@ -6,6 +6,7 @@ import (
 	"github.com/kaito071831/blog_server/db"
 )
 
+// 記事の構造体
 type Post struct {
 	ID int `gorm:"primarykey" json:"id"`
 	Title string `gorm:"type:string;not null" json:"title"`
@@ -15,16 +16,19 @@ type Post struct {
 	UserID int `json:"user_id"`
 }
 
+// 自動でテーブル作成＆マイグレーション
 func init() {
 	db.Db.Set("gorm:table_options", "ENGINE = InnoDB").AutoMigrate(&Post{})
 }
 
+// 記事を取得
 func GetPost(id int)(*Post, error) {
 	post := Post{}
 	db.Db.First(&post, id)
 	return &post, nil
 }
 
+// 全記事を取得
 func GetPosts()([]*Post, error) {
 	posts := []*Post{}
 	db.Db.Find(&posts)
@@ -34,6 +38,7 @@ func GetPosts()([]*Post, error) {
 	return posts, nil
 }
 
+// 記事を作成する
 func CreatePost(p Post)(Post, error){
 	post := p
 	if err := db.Db.Create(&post).Error; err != nil {
@@ -42,6 +47,7 @@ func CreatePost(p Post)(Post, error){
 	return post, nil
 }
 
+// 記事を更新する
 func UpdatePost(p Post)(Post, error){
 	post := Post{}
 	if err := db.Db.First(&post, p.ID).Error; err != nil {
