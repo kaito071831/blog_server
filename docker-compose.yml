@@ -25,10 +25,10 @@ services:
       dockerfile: build/db/Dockerfile
     volumes:
       - type: volume
-        source: blog_db_volume
+        source: sample_db_volume
         target: /var/lib/mysql
     env_file:
       - .env
 
 volumes:
-  blog_db_volume:
+  sample_db_volume:
